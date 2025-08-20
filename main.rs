@@ -10,14 +10,15 @@ fn main() {
     let mut render_texture = rl.load_render_texture(&thread, 640, 360).unwrap();
 
     while !rl.window_should_close() {
+        // Measure text first
+        let text_width = rl.measure_text("Hello World", 20);
+        let text_x = (640 - text_width) / 2;
+        let text_y = 180 - 10;
+
         // Draw to texture
         {
             let mut d = rl.begin_texture_mode(&thread, &mut render_texture);
             d.clear_background(Color::BLACK);
-            
-            let text_width = rl.measure_text("Hello World", 20);
-            let text_x = (640 - text_width) / 2;
-            let text_y = 180 - 10;
             d.draw_text("Hello World", text_x, text_y, 20, Color::WHITE);
         }
 
