@@ -8,4 +8,4 @@ name = "raylib-project"
 path = "main.rs"
 
 [dependencies]
-raylib = { version = "4.5.0", features = ["include_raylib"] }
+raylib = { version = "5.5.1", features = ["include_raylib"] }
