@@ -11,7 +11,7 @@ fn main() {
 
     while !rl.window_should_close() {
         // Measure text first
-        let text_width = rl.measure_text("Hello World", 20);
+        let text_width = rl.measure_text("evildojo666", 20);
         let text_x = (640 - text_width) / 2;
         let text_y = 180 - 10;
 
@@ -19,7 +19,7 @@ fn main() {
         {
             let mut d = rl.begin_texture_mode(&thread, &mut render_texture);
             d.clear_background(Color::BLACK);
-            d.draw_text("Hello World", text_x, text_y, 20, Color::WHITE);
+            d.draw_text("evildojo666", text_x, text_y, 20, Color::WHITE);
         }
 
         // Draw texture to window

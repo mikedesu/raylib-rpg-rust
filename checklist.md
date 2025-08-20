@@ -11,4 +11,4 @@
     - [x] modify the main loop to draw to the texture instead of the window
     - [x] modify the end of the main loop to draw the texture to the window 
         - [x] the texture must be scaled up to the size of the window
-3. [ ] change the text from "hello world" to "evildojo666"
+3. [x] change the text from "hello world" to "evildojo666"
