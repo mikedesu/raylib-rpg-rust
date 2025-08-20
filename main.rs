@@ -12,7 +12,7 @@ fn main() {
         d.clear_background(Color::BLACK);
         d.draw_text(
             "Hello World", 
-            (1280 - measure_text("Hello World", 20)) / 2, 
+            (1280 - rl.measure_text("Hello World", 20)) / 2, 
             360 - 10, 
             20, 
             Color::WHITE
