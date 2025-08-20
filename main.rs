@@ -27,7 +27,7 @@ fn main() {
         d.clear_background(Color::BLACK);
         d.draw_texture_pro(
             &render_texture,
-            Rectangle::new(0.0, 0.0, 640.0, 360.0),
+            Rectangle::new(0.0, 0.0, 640.0, -360.0),
             Rectangle::new(0.0, 0.0, 1280.0, 720.0),
             Vector2::zero(),
             0.0,
