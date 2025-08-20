@@ -6,13 +6,13 @@ fn main() {
         .title("Raylib Project")
         .build();
 
-    // Create render texture
-    let render_texture = rl.load_render_texture(&thread, 640, 360).unwrap();
+    // Create render texture (needs to be mutable)
+    let mut render_texture = rl.load_render_texture(&thread, 640, 360).unwrap();
 
     while !rl.window_should_close() {
         // Draw to texture
         {
-            let mut d = rl.begin_texture_mode(&thread, &render_texture);
+            let mut d = rl.begin_texture_mode(&thread, &mut render_texture);
             d.clear_background(Color::BLACK);
             
             let text_width = rl.measure_text("Hello World", 20);
