@@ -1,6 +1,7 @@
 use raylib::prelude::*;
 
 mod sprite;
+use crate::sprite::Sprite;
 
 fn main() {
     let window_width = 1280;
@@ -10,6 +11,7 @@ fn main() {
     let target_fps = 60;
     let origin_vec = Vector2::zero();
     let font_size = 20;
+    let mut frame_count = 0;
 
     let (mut rl, thread) = raylib::init()
         .size(window_width, window_height)
@@ -32,8 +34,26 @@ fn main() {
     let human_idle_texture = rl
         .load_texture(&thread, "img/char/human_idle.png")
         .expect("Failed to load texture");
-
     rl.set_target_fps(target_fps);
+
+    let mut human_idle_sprite = Sprite {
+        texture: &human_idle_texture,
+        width: 32,
+        height: 32,
+        numcontexts: 4,
+        numframes: 16,
+        currentframe: 0,
+        currentcontext: 0,
+        numloops: 0,
+        stop_on_last_frame: false,
+        is_animating: true,
+        src: Rectangle {
+            x: 0.0,
+            y: 0.0,
+            width: 64.0,
+            height: 64.0,
+        },
+    };
 
     while !rl.window_should_close() {
         // Measure text first
@@ -48,29 +68,44 @@ fn main() {
         {
             let mut d = rl.begin_texture_mode(&thread, &mut render_texture);
             d.clear_background(Color::BLACK);
-            let src = Rectangle {
-                x: 0.0,
-                y: 0.0,
-                width: human_idle_texture.width as f32,
-                height: human_idle_texture.height as f32,
-            };
+
+            let src = human_idle_sprite.src;
+
             let dst = Rectangle {
                 x: 0.0,
                 y: 0.0,
                 width: 1280.0,
                 height: 720.0,
             };
+
             let rotation = 0.0;
+
             d.draw_texture_pro(
-                &human_idle_texture,
+                human_idle_sprite.texture,
                 src,
                 dst,
                 Vector2::zero(),
                 rotation,
                 Color::WHITE,
             );
+
+            if frame_count % 10 == 0 {
+                human_idle_sprite.currentframe += 1;
+                if human_idle_sprite.currentframe >= human_idle_sprite.numframes {
+                    human_idle_sprite.currentframe = 0;
+                }
+
+                human_idle_sprite.src = Rectangle {
+                    x: (human_idle_sprite.currentframe * 64) as f32,
+                    y: 0.0,
+                    width: 64.0,
+                    height: 64.0,
+                };
+            }
+
             d.draw_text("evildojo666", text_x, text_y, font_size, font_color);
             d.draw_fps(10, 10);
+            frame_count += 1;
         }
         // Draw texture to window
         let mut d = rl.begin_drawing(&thread);
