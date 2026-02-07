@@ -3,3 +3,7 @@ pub const WINDOW_HEIGHT: i32 = 720;
 
 pub const TARGET_WIDTH: u32 = 640;
 pub const TARGET_HEIGHT: u32 = 360;
+
+pub const TARGET_FPS: u32 = 60;
+
+pub const WINDOW_TITLE: &str = "evildojo666 presents";

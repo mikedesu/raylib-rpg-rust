@@ -1,5 +1,6 @@
 use raylib::prelude::*;
 
+use crate::game::mprint;
 
 pub struct Sprite<'a> {
     pub texture: &'a Texture2D,
@@ -51,9 +52,7 @@ pub fn incr_frame(s: &mut Sprite) {
 }
 
 pub fn set_context(s: &mut Sprite, ctx: i32) {
-
-    println!("set_context({})", ctx);
-
+    mprint::info(format!("set_context({})", ctx));
     if ctx >= 0 && ctx < s.numcontexts {
         s.currentcontext = ctx % s.numcontexts;
         s.src.y = s.src.height * s.currentcontext as f32;
