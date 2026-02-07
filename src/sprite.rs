@@ -1,9 +1,10 @@
 use raylib::prelude::*;
 
+
 pub struct Sprite<'a> {
     pub texture: &'a Texture2D,
-    pub width: i32,
-    pub height: i32,
+    //pub width: i32,
+    //pub height: i32,
     pub numcontexts: i32,
     pub numframes: i32,
     pub currentframe: i32,
@@ -17,8 +18,8 @@ pub struct Sprite<'a> {
 pub fn new_sprite(t: &Texture2D, nc: i32, nf: i32) -> Sprite<'_> {
     Sprite {
         texture: t,
-        width: t.width / nf,
-        height: t.height / nc,
+        //width: 32,
+        //height: 32,
         numcontexts: nc,
         numframes: nf,
         currentframe: 0,
@@ -29,8 +30,8 @@ pub fn new_sprite(t: &Texture2D, nc: i32, nf: i32) -> Sprite<'_> {
         src: Rectangle {
             x: 0.0,
             y: 0.0,
-            width: (t.width * 2 / nf) as f32,
-            height: (t.height * 2 / nc) as f32,
+            width: 32.0,
+            height: 32.0,
         },
     }
 }
@@ -40,11 +41,31 @@ pub fn incr_frame(s: &mut Sprite) {
         s.currentframe += 1;
         if s.stop_on_last_frame && s.currentframe == s.numframes - 1 {
             s.is_animating = false;
-            s.src.x = (s.width * s.currentframe) as f32;
+            //s.src.x = s.src.width * s.currentframe as f32;
         } else if s.currentframe >= s.numframes {
             s.currentframe = 0;
             s.numloops += 1;
         }
-        s.src.x = (s.width * s.currentframe) as f32;
+        s.src.x = s.src.width * s.currentframe as f32;
     }
+}
+
+pub fn set_context(s: &mut Sprite, ctx: i32) {
+
+    println!("set_context({})", ctx);
+
+    if ctx >= 0 && ctx < s.numcontexts {
+        s.currentcontext = ctx % s.numcontexts;
+        s.src.y = s.src.height * s.currentcontext as f32;
+        s.currentframe = 0;
+        s.src.x = 0.0;
+    }
+}
+
+pub fn incr_context(s: &mut Sprite) {
+    set_context(s, s.currentcontext + 1);
+}
+
+pub fn decr_context(s: &mut Sprite) {
+    set_context(s, s.currentcontext - 1);
 }
