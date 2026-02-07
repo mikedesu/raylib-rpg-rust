@@ -1,12 +1,19 @@
 use raylib::prelude::*;
-mod sprite;
-mod gd;
-use crate::sprite::{
+mod game;
+//mod game::gd;
+use crate::game::sprite::{
     decr_context, 
     incr_context, 
     incr_frame, 
     new_sprite, 
 };
+use crate::game::gd;
+//use crate::game::gd::{
+//    WINDOW_WIDTH,
+//    WINDOW_HEIGHT,
+//    TARGET_WIDTH,
+//    TARGET_HEIGHT
+//};
 
 fn main() {
     let mut cam2d = Camera2D { offset: Vector2::zero(), target: Vector2::zero(), rotation: 0.0, zoom: 1.0};
