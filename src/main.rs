@@ -1,13 +1,33 @@
 use raylib::prelude::*;
 
 mod game;
+
 use crate::game::sprite::{
-    decr_context, 
-    incr_context, 
+    //decr_context, 
+    //incr_context, 
     incr_frame, 
     new_sprite, 
 };
+
 use crate::game::gd;
+
+
+fn handle_input(rl: &RaylibHandle, cam2d: &mut Camera2D) {
+    if rl.is_key_pressed(KeyboardKey::KEY_Z) {
+        cam2d.zoom += 1.0;
+    } 
+    else if rl.is_key_pressed(KeyboardKey::KEY_X) && cam2d.zoom > 1.0 {
+        cam2d.zoom -= 1.0;
+    } 
+    //else if rl.is_key_pressed(KeyboardKey::KEY_UP) {
+    //incr_context(&mut human_idle_sprite);
+    //}
+    //else if rl.is_key_pressed(KeyboardKey::KEY_DOWN) {
+    //decr_context(&mut human_idle_sprite);
+    //}
+}
+
+
 
 fn main() {
     let mut cam2d = Camera2D { offset: Vector2::zero(), target: Vector2::zero(), rotation: 0.0, zoom: 1.0};
@@ -27,20 +47,12 @@ fn main() {
     let mut human_idle_sprite = new_sprite(&human_idle_texture, 4, 16);
     while !rl.window_should_close() {
         // get input
-        if rl.is_key_down(KeyboardKey::KEY_Z) {
-            cam2d.zoom += 0.1;
-        } 
-        else if rl.is_key_down(KeyboardKey::KEY_X) && cam2d.zoom > 1.0 {
-            cam2d.zoom -= 0.1;
-        } 
-        else if rl.is_key_pressed(KeyboardKey::KEY_UP) {
-            incr_context(&mut human_idle_sprite);
-        }
-        else if rl.is_key_pressed(KeyboardKey::KEY_DOWN) {
-            decr_context(&mut human_idle_sprite);
-        }
+        handle_input(&rl, &mut cam2d);
+
         // update state
+
         // draw frame
+        
         // Measure text first
         let text = "evildojo666";
         let text_width = rl.measure_text(text, font_size);
