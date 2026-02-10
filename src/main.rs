@@ -2,7 +2,7 @@ use raylib::prelude::*;
 mod game;
 use crate::game::gamestate::Gamestate;
 use crate::game::scene::SceneKind;
-//use crate::game::mprint;
+use crate::game::mprint;
 //use crate::game::sprite::{
 //decr_context, 
 //incr_context, 
@@ -12,7 +12,7 @@ use crate::game::scene::SceneKind;
 
 use crate::game::gd;
 
-#[allow(dead_code)]
+//#[allow(dead_code)]
 fn handle_input_title(rl: &RaylibHandle, g: &mut Gamestate) {
     if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
         g.set_scene(SceneKind::NewGame);
@@ -20,24 +20,13 @@ fn handle_input_title(rl: &RaylibHandle, g: &mut Gamestate) {
 }
 
 
-//fn handle_input(rl: &RaylibHandle, g: &mut Gamestate) {
-    //if rl.is_key_pressed(KeyboardKey::KEY_Z) { cam2d.zoom += 1.0; } 
-    //else if rl.is_key_pressed(KeyboardKey::KEY_X) && cam2d.zoom > 1.0 { cam2d.zoom -= 1.0; } 
-    //else if rl.is_key_pressed(KeyboardKey::KEY_UP) {
-    //incr_context(&mut human_idle_sprite);
-    //}
-    //else if rl.is_key_pressed(KeyboardKey::KEY_DOWN) {
-    //decr_context(&mut human_idle_sprite);
-    //}
-    //match g.get_scene() {
-    //    SceneKind::Title => {
-    //        draw_title(&mut rl, &thread, &mut render_texture, &mut gamestate);
-    //    },
-    //    SceneKind::NewGame => {
-    // 
-    //    }
-    //}
-//}
+//fn handle_input_new_game(rl: &RaylibHandle, _g: &mut Gamestate) {
+//#[allow(dead_code)]
+fn handle_input_new_game(rl: &RaylibHandle) {
+    if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
+        mprint::info("any key pressed!".to_string());
+    }
+}
 
 
 fn draw_title(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: &mut RenderTexture2D, g: &mut Gamestate) {
@@ -105,6 +94,29 @@ fn draw_new_game_scene(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_
 }
 
 
+fn draw_frame(mut rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: &mut RenderTexture2D, mut g: &mut Gamestate) {
+    match g.get_scene() {
+        SceneKind::Title => { draw_title(&mut rl, &thread, &mut render_texture, &mut g); },
+        SceneKind::NewGame => { draw_new_game_scene(&mut rl, &thread, &mut render_texture, &mut g); }
+    }
+}
+
+
+
+fn update_state() {
+    mprint::info("update_state".to_string());
+}
+
+
+
+fn handle_input(rl: &RaylibHandle, mut gamestate: &mut Gamestate) {
+    match gamestate.get_scene() {
+        SceneKind::Title => { handle_input_title(&rl, &mut gamestate); },
+        SceneKind::NewGame => { handle_input_new_game(&rl); }
+    }
+}
+
+
 
 fn main() {
     let mut gamestate: Gamestate = Gamestate::new();
@@ -124,28 +136,9 @@ fn main() {
         //if gamestate.get_scene() == SceneKind::Title {
         //    // do stuff
         //}
-        // get input
-        match gamestate.get_scene() {
-            SceneKind::Title => {
-                handle_input_title(&rl, &mut gamestate);
-            },
-            SceneKind::NewGame => {
-
-            }
-        }
-        // update state
-        // draw frame
-        //mprint::info(format!("draw_frame"));
-        match gamestate.get_scene() {
-            SceneKind::Title => {
-                //mprint::info(format!("drawing title"));
-                draw_title(&mut rl, &thread, &mut render_texture, &mut gamestate);
-            },
-            SceneKind::NewGame => {
-                //mprint::info(format!("drawing new game"));
-                draw_new_game_scene(&mut rl, &thread, &mut render_texture, &mut gamestate);        
-            }
-        }
+        handle_input(&rl, &mut gamestate);
+        update_state();
+        draw_frame(&mut rl, &thread, &mut render_texture, &mut gamestate);
         gamestate.incr_frame_count();
     }
 }
