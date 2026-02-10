@@ -24,7 +24,7 @@ fn handle_input_title(rl: &RaylibHandle, g: &mut Gamestate) {
 //#[allow(dead_code)]
 fn handle_input_new_game(rl: &RaylibHandle) {
     if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
-        mprint::info("any key pressed!".to_string());
+        mprint::info("space key pressed!".to_string());
     }
 }
 
