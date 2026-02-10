@@ -5,24 +5,30 @@ use raylib::prelude::*;
 pub struct Gamestate {
     frame_count: u32,
     current_scene: SceneKind,
-    cam2d: Camera2D
+    cam2d: Camera2D,
 }
-
 
 impl Gamestate {
     pub fn new() -> Gamestate {
         Gamestate {
             frame_count: 0,
             current_scene: SceneKind::Title,
-            cam2d: Camera2D { offset: Vector2::zero(), target: Vector2::zero(), rotation: 0.0, zoom: 1.0}
+            cam2d: Camera2D {
+                offset: Vector2::zero(),
+                target: Vector2::zero(),
+                rotation: 0.0,
+                zoom: 1.0,
+            },
         }
     }
 
     pub fn incr_frame_count(&mut self) {
-        self.frame_count+=1;
+        self.frame_count += 1;
     }
 
-    pub fn get_frame_count(&self) -> u32 { self.frame_count }
+    pub fn get_frame_count(&self) -> u32 {
+        self.frame_count
+    }
 
     pub fn get_scene(&self) -> SceneKind {
         self.current_scene.clone()
@@ -37,4 +43,3 @@ impl Gamestate {
         &mut self.cam2d
     }
 }
-

@@ -2,7 +2,7 @@ use raylib::prelude::*;
 
 use crate::game::sprite::Sprite;
 
-//#[allow(dead_code)]
+#[allow(dead_code)]
 pub struct Spritegroup<'a> {
     pub size: i32,
     pub capacity: i32,
@@ -14,13 +14,14 @@ pub struct Spritegroup<'a> {
     pub id: i32,
     pub dest: Rectangle,
     pub xmove: Rectangle,
-    pub move_rate: f32, 
+    pub move_rate: f32,
     pub visible: bool,
-    pub sprites: Vec<Sprite<'a>>
+    pub sprites: Vec<Sprite<'a>>,
 }
 
-
-impl<'a> Spritegroup<'_> {
+//impl<'a> Spritegroup<'_> {
+impl<'a> Spritegroup<'a> {
+    #[allow(dead_code)]
     pub fn new() -> Spritegroup<'a> {
         Spritegroup {
             size: 0,
@@ -45,7 +46,12 @@ impl<'a> Spritegroup<'_> {
             },
             move_rate: 1.0,
             visible: true,
-            sprites: Vec::new()
+            sprites: Vec::new(),
         }
+    }
+
+    #[allow(dead_code)]
+    pub fn add(&mut self, s: Sprite<'a> ) {
+        self.sprites.push(s);
     }
 }
