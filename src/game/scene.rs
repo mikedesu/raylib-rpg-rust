@@ -1,7 +1,7 @@
 #[derive(Clone, Debug)]
 pub enum SceneKind {
     Title,
-    //NewGame,
+    NewGame,
     //CharacterCreation,
     //Gameplay
 }

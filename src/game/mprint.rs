@@ -1,6 +1,8 @@
 use colored::Colorize;
 
+#[allow(dead_code)]
 pub fn info(a: String)    { println!("📔 {} : {}", "Info".purple().bold(), a);    }
+//pub fn info(a: &str)    { println!("📔 {} : {}", "Info".purple().bold(), a);    }
 //pub fn success(a: String) { println!("✅ {} : {}", "Success".green().bold(), a);  }
 //pub fn error(a: String)   { println!("☠️ {} : {}", "Error".red().bold(), a);      }
 //pub fn warning(a: String) { println!("⚠️ {} : {}", "Warning".yellow().bold(), a); }

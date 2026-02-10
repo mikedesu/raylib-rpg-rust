@@ -2,6 +2,7 @@ use raylib::prelude::*;
 
 use crate::game::mprint;
 
+#[allow(dead_code)]
 pub struct Sprite<'a> {
     pub texture: &'a Texture2D,
     //pub width: i32,
@@ -16,6 +17,8 @@ pub struct Sprite<'a> {
     pub src: Rectangle,
 }
 
+
+#[allow(dead_code)]
 pub fn new_sprite(t: &Texture2D, nc: i32, nf: i32) -> Sprite<'_> {
     Sprite {
         texture: t,
@@ -37,6 +40,8 @@ pub fn new_sprite(t: &Texture2D, nc: i32, nf: i32) -> Sprite<'_> {
     }
 }
 
+
+#[allow(dead_code)]
 pub fn incr_frame(s: &mut Sprite) {
     if s.is_animating {
         s.currentframe += 1;
@@ -51,6 +56,8 @@ pub fn incr_frame(s: &mut Sprite) {
     }
 }
 
+
+#[allow(dead_code)]
 pub fn set_context(s: &mut Sprite, ctx: i32) {
     mprint::info(format!("set_context({})", ctx));
     if ctx >= 0 && ctx < s.numcontexts {
@@ -61,10 +68,14 @@ pub fn set_context(s: &mut Sprite, ctx: i32) {
     }
 }
 
+
+#[allow(dead_code)]
 pub fn incr_context(s: &mut Sprite) {
     set_context(s, s.currentcontext + 1);
 }
 
+
+#[allow(dead_code)]
 pub fn decr_context(s: &mut Sprite) {
     set_context(s, s.currentcontext - 1);
 }
