@@ -1,15 +1,10 @@
+use std::collections::HashMap;
+
 use raylib::prelude::*;
 mod game;
 use crate::game::gamestate::Gamestate;
 use crate::game::scene::SceneKind;
 use crate::game::mprint;
-//use crate::game::sprite::{
-//decr_context, 
-//incr_context, 
-//incr_frame, 
-//new_sprite, 
-//};
-
 use crate::game::gd;
 
 //#[allow(dead_code)]
@@ -19,7 +14,6 @@ fn handle_input_title(rl: &RaylibHandle, g: &mut Gamestate) {
     }
 }
 
-
 //fn handle_input_new_game(rl: &RaylibHandle, _g: &mut Gamestate) {
 //#[allow(dead_code)]
 fn handle_input_new_game(rl: &RaylibHandle) {
@@ -27,7 +21,6 @@ fn handle_input_new_game(rl: &RaylibHandle) {
         mprint::info("space key pressed!".to_string());
     }
 }
-
 
 fn draw_title(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: &mut RenderTexture2D, g: &mut Gamestate) {
     // Measure text first
@@ -41,7 +34,7 @@ fn draw_title(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: 
     {
         let mut d = rl.begin_texture_mode(&thread, &mut render_texture);
         d.clear_background(Color::DARKGRAY);
-        {
+        //{
             //let mut cm = d.begin_mode2D(cam2d);
             //let src = human_idle_sprite.src;
             //let dst = Rectangle {x: 0.0, y: 0.0, width: human_idle_sprite.src.width, height: human_idle_sprite.src.height};
@@ -50,8 +43,7 @@ fn draw_title(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: 
             //if frame_count % 10 == 0 {
             //incr_frame(&mut human_idle_sprite);
             //}
-        }
-        //d.draw_fps(10, 10);
+        //}
         let s: String = format!("frame_count: {}", g.get_frame_count());
         d.draw_text(s.as_str(), text_x, text_y, font_size, Color::WHITE);
     }
@@ -63,7 +55,6 @@ fn draw_title(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: 
     let render_dst = Rectangle::new(0.0, 0.0, gd::WINDOW_WIDTH as f32, gd::WINDOW_HEIGHT as f32);
     d.draw_texture_pro(&render_texture, render_src, render_dst, ORIGIN_VEC, rotation, Color::WHITE);
 }
-
 
 fn draw_new_game_scene(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_texture: &mut RenderTexture2D, _g: &mut Gamestate) {
     // Draw to texture
@@ -80,10 +71,8 @@ fn draw_new_game_scene(rl: &mut RaylibHandle, thread: &RaylibThread, mut render_
             //incr_frame(&mut human_idle_sprite);
             //}
         }
-        //d.draw_fps(10, 10);
         d.draw_text("New Game", 10, 10, 20, Color::WHITE);
     }
-
     // Draw texture to window
     let mut d = rl.begin_drawing(&thread);
     d.clear_background(Color::BLACK);
@@ -102,11 +91,9 @@ fn draw_frame(mut rl: &mut RaylibHandle, thread: &RaylibThread, mut render_textu
 }
 
 
-
 fn update_state() {
     mprint::info("update_state".to_string());
 }
-
 
 
 fn handle_input(rl: &RaylibHandle, mut gamestate: &mut Gamestate) {
@@ -117,28 +104,27 @@ fn handle_input(rl: &RaylibHandle, mut gamestate: &mut Gamestate) {
 }
 
 
-
 fn main() {
     let mut gamestate: Gamestate = Gamestate::new();
     let (mut rl, thread) = raylib::init().size(gd::WINDOW_WIDTH, gd::WINDOW_HEIGHT).title(gd::WINDOW_TITLE).build();
     // Create render texture (needs to be mutable)
     let mut render_texture = rl.load_render_texture(&thread, gd::TARGET_WIDTH, gd::TARGET_HEIGHT).unwrap();
-    // have to invert the height to flip the texture
-    //let tx_path = "img/char/human_idle.png";
-    //let human_idle_texture = rl.load_texture(&thread, tx_path)
-    //    .expect("Failed to load texture");
+    // Create textures hashmap
+    let mut textures: HashMap<i32, Texture2D> = HashMap::new();
+    // Load human_idle texture
+    let tx = rl.load_texture(&thread, "img/char/human_idle.png").expect("Failed to load texture");
+    // Hardcoding texture_id 1 to human_idle texture
+    textures.insert(1, tx);
     rl.set_target_fps(gd::TARGET_FPS);
+
     //let mut human_idle_sprite = new_sprite(&human_idle_texture, 4, 16);
+    
     while !rl.window_should_close() {
-        //handle_input(&rl, &mut cam2d);
-        // update state
-        // draw frame
-        //if gamestate.get_scene() == SceneKind::Title {
-        //    // do stuff
-        //}
         handle_input(&rl, &mut gamestate);
         update_state();
         draw_frame(&mut rl, &thread, &mut render_texture, &mut gamestate);
         gamestate.incr_frame_count();
     }
+
+    // Can we trust that everything is automatically unloaded properly?
 }
